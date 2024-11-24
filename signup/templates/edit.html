@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Edit_page</title>
+    <style>
+         .card-container {
+                          width: 900px;
+                           top: -400px;
+                           display: flex;
+                           overflow-x: auto; /* Enable horizontal scrolling */
+                           white-space: nowrap; /* Prevent cards from wrapping */
+                          
+                     }
+         button[type='button']{
+            position: absolute;
+            right: 18px;
+
+         }
+        
+         .card-body{
+            display: flex;
+            flex-direction: column;
+         }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Edit Profile</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="#">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6 class="mb-0">Name :</h6>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <p class="mb-0" id="name-text">{{ profile.name }}</p>
+                                <input type="text" class="form-control d-none" id="name-input" name="name" value="{{ profile.name }}">
+                                <button type="button" class="btn btn-secondary btn-sm ms-3" id="name-edit-btn" onclick="toggleEdit('name')">Edit</button>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6 class="mb-0">Height :</h6>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <p class="mb-0" id="height-text">{{ profile.height }}</p>
+                                <input type="number" step="0.01" class="form-control d-none" id="height-input" name="height" value="{{ profile.height }}">
+                                <button type="button" class="btn btn-secondary btn-sm ms-3" id="height-edit-btn" onclick="toggleEdit('height')">Edit</button>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6 class="mb-0">Weight :</h6>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <p class="mb-0" id="weight-text">{{ profile.weight }}</p>
+                                <input type="number" step="0.01" class="form-control d-none" id="weight-input" name="weight" value="{{ profile.weight }}">
+                                <button type="button" class="btn btn-secondary btn-sm ms-3" id="weight-edit-btn" onclick="toggleEdit('weight')">Edit</button>
+                            </div>
+                        </div>
+
+
+                       
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6 class="mb-0">Marital Status :</h6>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <p class="mb-0" id="marital_status-text">{{ profile.marital_status }}</p>
+                                <select class="form-control d-none" id="marital_status-select" name="marital_status">
+                                    <option value="Never Married" {% if profile.marital_status == "Never Married" %}selected{% endif %}>Never Married</option>
+                                    <option value="Widowed" {% if profile.marital_status == "Widowed" %}selected{% endif %}>Widowed</option>
+                                    <option value="Divorced" {% if profile.marital_status == "Divorced" %}selected{% endif %}>Divorced</option>
+                                    <option value="Awaiting divorced" {% if profile.marital_status == "Awaiting divorced" %}selected{% endif %}>Awaiting divorced</option>
+                                </select>
+                                <button type="button" class="btn btn-secondary btn-sm ms-3" id="marital_status-edit-btn" onclick="toggleEdit('marital_status')">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6 class="mb-0">Family Values :</h6>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <p class="mb-0" id="family_values-text">{{ profile.family_values }}</p>
+                                <select  class="form-control d-none" id="family_values-select" name="family_values">
+                                    <option value="Orthodox" {% if profile.family_values == "Orthodox"%}selected{% endif %}>Orthodox</option>
+                                    <option value="Traditional" {% if profile.family_values == "Traditional"%}selected{% endif %}>Traditional</option>
+                                    <option value="Moderate" {% if profile.family_values == "Moderate"%}selected{% endif %}>Moderate</option>
+                                    <option value="Liberal" {% if profile.family_values == "Liberal"%}selected{% endif %}>Liberal</option>
+                                </select>
+                                <button type="button" class="btn btn-secondary btn-sm ms-3" id="family_values-edit-btn" onclick="toggleEdit('family_values')">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6 class="mb-0">Family Status :</h6>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <p class="mb-0" id="family_status-text">{{ profile.family_status }}</p>
+                                <select  class="form-control d-none" id="family_status-select" name="family_status">
+                                    <option value="Middle class" {% if profile.family_status == "Middle class"%}selected{% endif %}>Middle class</option>
+                                    <option value="Upper middle class" {% if profile.family_status == "Upper middle class"%}selected{% endif %}>Upper middle class</option>
+                                    <option value="High class" {% if profile.family_status == "High class"%}selected{% endif %}>High class</option>
+                                    <option value="Rich/Affluent" {% if profile.family_status == "Rich/Affluent"%}selected{% endif %}>Rich/Affluent</option>
+                                </select>
+                                <button type="button" class="btn btn-secondary btn-sm ms-3" id="family_status-edit-btn" onclick="toggleEdit('family_status')">Edit</button>
+                            </div>
+                        </div>
+                       
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6 class="mb-0">Family Type :</h6>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <p class="mb-0" id="family_type-text">{{ profile.family_type }}</p>
+                                <select  class="form-control d-none" id="family_type-select" name="family_type">
+                                    <option value="Joint" {% if profile.family_type == "Joint"%}selected{% endif %}>Joint</option>
+                                    <option value="Nuclear" {% if profile.family_type == "Nuclear"%}selected{% endif %}>Nuclear</option>
+                                </select>
+                                <button type="button" class="btn btn-secondary btn-sm ms-3" id="family_type-edit-btn" onclick="toggleEdit('family_type')">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6 class="mb-0">Mother Tongue :</h6>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <p class="mb-0" id="mother_tongue-text">{{ profile.mother_tongue }}</p>
+                                <select  class="form-control d-none" id="mother_tongue-select" name="mother_tongue">
+                                    <option value="Malayalam" {% if profile.mother_tongue == "Malayalam"%}selected{% endif %}>Malayalam</option>
+                                    <option value="Tamil" {% if profile.mother_tongue == "Tamil"%}selected{% endif %}>Tamil</option>
+                                    <option value="Hindi" {% if profile.mother_tongue == "Hindi"%}selected{% endif %}>Hindi</option>
+                                    <option value="English" {% if profile.mother_tongue == "English"%}selected{% endif %}>English</option>
+                                    <option value="Kannada" {% if profile.mother_tongue == "Kannada"%}selected{% endif %}>Kannada</option>
+                                    <option value="Telugu" {% if profile.mother_tongue == "Telugu"%}selected{% endif %}>Telugu</option>
+                                </select>
+                                <button type="button" class="btn btn-secondary btn-sm ms-3" id="mother_tongue-edit-btn" onclick="toggleEdit('mother_tongue')">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6 class="mb-0">Caste :</h6>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <p class="mb-0" id="cast-text">{{ profile.cast }}</p>
+                                <input type="text" class="form-control d-none" id="cast-input" name="cast" value="{{ profile.cast }}">
+                                <button type="button" class="btn btn-secondary btn-sm ms-3" id="cast-edit-btn" onclick="toggleEdit('cast')">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6 class="mb-0">Any Disability :</h6>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <p class="mb-0" id="disability-text">{{ profile.disability }}</p>
+                                <select  class="form-control d-none" id="disability-select" name="disability">
+                                    <option value="None" {% if profile.disability == "None"%}selected{% endif %}>None</option>
+                                    <option value="Physically challenged" {% if profile.disability == "Physically challenged"%}selected{% endif %}>Physically challenged</option>
+                                </select>
+                                <button type="button" class="btn btn-secondary btn-sm ms-3" id="disability-edit-btn" onclick="toggleEdit('disability')">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6 class="mb-0">About :</h6>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center">
+                                <p class="mb-0" id="about-text">{{ profile.about }}</p>
+                                <textarea type="text" class="form-control d-none" id="about-input" name="about" rows="5">{{profile.about}}</textarea>
+                                <button type="button" class="btn btn-secondary btn-sm ms-3" id="about-edit-btn" onclick="toggleEdit('about')">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+        <script>
+            function toggleEdit(field) {
+                var textElement = document.getElementById(field + '-text');
+                var inputElement = document.getElementById(field + '-input');
+                var buttonElement = document.getElementById(field + '-edit-btn');
+                var selectElement = document.getElementById(field + '-select');
+              
+                // if ( inputElement.classList.contains('d-none')) {
+                //     inputElement.classList.remove('d-none');
+                //     textElement.classList.add('d-none');
+                //     buttonElement.textContent = 'Cancel';
+                   
+                // }
+                //  else {
+                //     inputElement.classList.add('d-none');
+                //     textElement.classList.remove('d-none');
+                //     buttonElement.textContent = 'Edit';
+                // }
+
+                // if ( selectElement.classList.contains('d-none')) {
+                //     selectElement.classList.remove('d-none');
+                //     textElement.classList.add('d-none');
+                //     buttonElement.textContent = 'Cancel';
+                // }
+                //  else {
+                //     inputElement.classList.add('d-none');
+                //     textElement.classList.remove('d-none');
+                //     buttonElement.textContent = 'Edit';
+                // }
+
+                if (inputElement && !inputElement.classList.contains('d-none')) {
+            inputElement.classList.add('d-none');
+            textElement.classList.remove('d-none');
+            buttonElement.textContent = 'Edit';
+        } else if (selectElement && !selectElement.classList.contains('d-none')) {
+            selectElement.classList.add('d-none');
+            textElement.classList.remove('d-none');
+            buttonElement.textContent = 'Edit';
+        } else {
+            if (inputElement) {
+                inputElement.classList.remove('d-none');
+                textElement.classList.add('d-none');
+            }
+            if (selectElement) {
+                selectElement.classList.remove('d-none');
+                textElement.classList.add('d-none');
+            }
+            buttonElement.textContent = 'Cancel';
+        }
+                
+                
+            }
+        </script>
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </body>
+</html>

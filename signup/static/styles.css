@@ -1,0 +1,31 @@
+.name-input {
+    width: 55%;
+    height:20px;
+    position: relative;
+    left: 27px;
+    overflow-x: auto;
+}
+
+.profile-select {
+    width: 57%;
+    height: 25px;
+    position: relative;
+    left: 22px;
+    border-radius: 2px;
+}
+
+.password-input {
+    width: 55%;
+    height:20px;
+    position: relative;
+    left: 5px;
+    overflow-x: auto;
+}
+
+.email-input {
+    width: 55%;
+    height:20px;
+    position: relative;
+    left: 26px;
+    overflow-x: auto;
+}
